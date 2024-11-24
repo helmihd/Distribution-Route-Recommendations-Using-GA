@@ -6,28 +6,12 @@
     <title>Home Page</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <style>
-        .map-container {
-            margin-bottom: 30px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .coordinates, .items-input {
-            font-family: Arial, sans-serif;
-            margin-top: 10px;
-        }
-        #map {
-            height: 300px;
-            width: 100%;
-        }
-    </style>
 </head>
 <body>
-    <h1>Welcome to Flask!</h1>
+    <h1>Distribution Route Recommendations Using GA</h1>
     <p>Click on the map to select a location. The coordinates and item details will be displayed below. You can add multiple entries.</p>
 
-    <form id="location-form" action="#" method="POST" onsubmit="return false;">
+    <form id="location-form" action="/result" method="POST">
         <div id="locations-container">
             <!-- Locations and items will be dynamically added here -->
         </div>
@@ -40,12 +24,10 @@
     <!-- Include Leaflet.js -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        // Function to add a new location input
         function addLocation() {
             const container = document.getElementById('locations-container');
             const index = container.children.length;
 
-            // Create a new container for the map and item inputs
             const locationDiv = document.createElement('div');
             locationDiv.classList.add('map-container');
             locationDiv.innerHTML = `
@@ -70,10 +52,8 @@
             `;
             container.appendChild(locationDiv);
 
-            // Initialize map for the new location
             const map = L.map(`map-${index}`).setView([0, 0], 2);
 
-            // Add OpenStreetMap tile layer
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '© OpenStreetMap contributors'
@@ -81,48 +61,38 @@
 
             let marker;
 
-            // Use Geolocation API to get user's current location
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     function (position) {
                         const { latitude, longitude } = position.coords;
-
-                        // Set map view to user's location
                         map.setView([latitude, longitude], 13);
 
-                        // Add a marker at user's location
                         marker = L.marker([latitude, longitude]).addTo(map)
                             .bindPopup('You are here!')
                             .openPopup();
 
-                        // Display user's coordinates in the input fields
                         document.getElementById(`latitude-${index}`).value = latitude.toFixed(6);
                         document.getElementById(`longitude-${index}`).value = longitude.toFixed(6);
                     },
                     function () {
                         alert('Unable to retrieve your location. Using default location.');
-                        // Set default location if geolocation fails
                         map.setView([0, 0], 2);
                     }
                 );
             } else {
-                alert('Geolocation is not supported by your browser. Using default location.');
-                // Set default location if Geolocation API is not available
+                alert('Geolocation is not supported by your browser.');
                 map.setView([0, 0], 2);
             }
 
-            // Add click event listener to the map
             map.on('click', function (e) {
                 const { lat, lng } = e.latlng;
 
-                // If a marker exists, update its position, otherwise create a new marker
                 if (!marker) {
                     marker = L.marker([lat, lng]).addTo(map);
                 } else {
                     marker.setLatLng([lat, lng]);
                 }
 
-                // Update the input fields with the selected coordinates
                 document.getElementById(`latitude-${index}`).value = lat.toFixed(6);
                 document.getElementById(`longitude-${index}`).value = lng.toFixed(6);
             });

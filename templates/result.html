@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/result.css') }}">
+</head>
+<body>
+    <h1>Input Summary</h1>
+    <p>Here is the data you submitted:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Items</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for location in locations %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ location['latitude'] }}</td>
+                <td>{{ location['longitude'] }}</td>
+                <td>{{ location['items'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="/">Back to Home</a>
+</body>
+</html>

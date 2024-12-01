@@ -1,36 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Result Page</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/result.css') }}">
-</head>
-<body>
-    <h1>Input Summary</h1>
-    <p>Here is the data you submitted:</p>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Result Page</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/result.css') }}">
+    </head>
+    <body>
+        <h1>Optimization Results</h1>
+        
+        <!-- Input Data -->
+        <h2>Input Summary</h2>
+        <p>Here is the data you submitted:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Location</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Demands</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, value in locations.items() %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value[0] }}</td>
+                    <td>{{ value[1] }}</td>
+                    <td>{{ value[2] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-    <table>
-        <thead>
-            <tr>
-                <th>No.</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-                <th>Items</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for location in locations %}
-            <tr>
-                <td>{{ loop.index }}</td>
-                <td>{{ location['latitude'] }}</td>
-                <td>{{ location['longitude'] }}</td>
-                <td>{{ location['items'] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <!-- Best Individuals for Each Vehicle -->
+        <h2>Best Individuals for Each Vehicle</h2>
+        {% for vehicle_data in individual_best_vehicle %}
+        <h3>Vehicle: {{ vehicle_data[0] }} ({{ vehicle_data[1] }})</h3>
+        <p>
+            <strong>Fitness:</strong> {{ vehicle_data[3] | round(6) }}
+        </p>
+        <p>
+            <strong>Total Distance:</strong> {{ vehicle_data[4] | round(2) }} km
+        </p>
+        <p>
+            <strong>Total Cost:</strong> Rp. {{ vehicle_data[5] | round(0) }}
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Distance (km)</th>
+                    <th>Remaining Capacity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for gene in vehicle_data[2] %}
+                <tr>
+                    <td>{{ gene[0] }}</td>
+                    <td>{{ gene[1] }}</td>
+                    <td>{{ gene[2] | round(2) }}</td>
+                    <td>{{ gene[3] | round(0) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endfor %}
 
-    <a href="/">Back to Home</a>
-</body>
+        <a href="/">Back to Home</a>
+    </body>
 </html>

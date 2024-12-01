@@ -10,6 +10,12 @@ h1 {
     font-size: 2rem;
     color: #0073e6;
 }
+h2 {
+    text-align: center;
+}
+h3 {
+    text-align: center;
+}
 p {
     text-align: center;
     margin: 0 auto 30px;

@@ -46,17 +46,11 @@
         <p>
             <strong>Total Cost:</strong> Rp. {{ vehicle_data[5] | round(0) }}
         </p>
-        <!-- Display the generated map -->
-        <iframe src="{{ map_filenames[vehicle_data[0]] }}" width="100%" height="500"></iframe>
         <table>
             <thead>
                 <tr>
                     <th>From</th>
-                    <th>From Latitude</th>
-                    <th>From Longitude</th>
                     <th>To</th>
-                    <th>To Latitude</th>
-                    <th>To Longitude</th>
                     <th>Distance (km)</th>
                     <th>Remaining Capacity</th>
                 </tr>
@@ -65,11 +59,7 @@
                 {% for gene in vehicle_data[2] %}
                 <tr>
                     <td>{{ gene[0] }}</td>
-                    <td>{{ locations[gene[0]][0] }}</td> <!-- From Latitude -->
-                    <td>{{ locations[gene[0]][1] }}</td> <!-- From Longitude -->
                     <td>{{ gene[1] }}</td>
-                    <td>{{ locations[gene[1]][0] }}</td> <!-- To Latitude -->
-                    <td>{{ locations[gene[1]][1] }}</td> <!-- To Longitude -->
                     <td>{{ gene[2] | round(2) }}</td>
                     <td>{{ gene[3] | round(0) }}</td>
                 </tr>

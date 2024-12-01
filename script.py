@@ -68,8 +68,8 @@ def create_chromosome(locations, route, truck_capacity):
             # Jika muatan tidak cukup, kembali ke gudang
             distance_to_gudang = distance_matrix[current_location]["G"]
             current_load = truck_capacity  # Isi ulang kapasitas
-            current_location = "G"
             chromosome.append((current_location, "G", distance_to_gudang, current_load))
+            current_location = "G"
             
             # Lanjutkan ke lokasi berikutnya
             distance = distance_matrix[current_location][next_location]
@@ -80,7 +80,6 @@ def create_chromosome(locations, route, truck_capacity):
     # Kembali ke gudang setelah selesai
     if current_location != "G":
         distance_to_gudang = distance_matrix[current_location]["G"]
-        current_load = 0
         chromosome.append((current_location, "G", distance_to_gudang, current_load))
     
     return chromosome

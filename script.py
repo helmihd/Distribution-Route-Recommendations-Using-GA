@@ -80,6 +80,7 @@ def create_chromosome(locations, route, truck_capacity):
     # Kembali ke gudang setelah selesai
     if current_location != "G":
         distance_to_gudang = distance_matrix[current_location]["G"]
+        current_load = 0
         chromosome.append((current_location, "G", distance_to_gudang, current_load))
     
     return chromosome

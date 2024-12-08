@@ -14,7 +14,7 @@ def home():
 @app.route('/result', methods=['POST'])
 def result():
     locations = {}
-    index = 1
+    index = 0
     truck_capacity = {
         "T1": ("Motor", 18, 48, 10000),
         "T2": ("Mobil Van", 54, 13.5, 10000),

@@ -69,7 +69,7 @@ def result():
             # Add a Polyline with an arrow at the end using AntPath for animated path
             AntPath(
                 locations=[[from_location[0], from_location[1]], [to_location[0], to_location[1]]],
-                color='green',
+                color='blue',
                 weight=3,
                 opacity=0.8
             ).add_to(m)
